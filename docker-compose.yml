@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend  # Путь к папке backend с Dockerfile
+    container_name: backend
+    ports:
+      - "3005:3000"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - app-network
+    depends_on:
+      - db  # Зависит от базы данных
+
+  frontend:
+    build:
+      context: ./frontend  # Путь к папке frontend с Dockerfile
+    container_name: frontend
+    ports:
+      - "8081:8081"
+    networks:
+      - app-network
+    depends_on:
+      - backend  # Зависит от backend
+
+  db:
+    image: postgres:13
+    container_name: db
+    environment:
+      POSTGRES_USER: rikitwiki
+      POSTGRES_PASSWORD: rikitwiki
+      POSTGRES_DB: booking
+      TZ: "Asia/Bishkek"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/init-scripts:/docker-entrypoint-initdb.d  # Монтируем папку с SQL-скриптами
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
