@@ -1,5 +1,10 @@
 -- Создаем базу данных
-CREATE DATABASE booking;
+DO $$ 
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'booking') THEN
+        CREATE DATABASE booking;
+    END IF;
+END $$;
 
 -- Подключаемся к базе данных
 \c booking;
@@ -46,6 +51,6 @@ DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM users WHERE email = 'admin@example.com') THEN
         INSERT INTO users (email, password, role)
-        VALUES ('admin@example.com', 'admin', 'admin');  -- Пароль admin
+        VALUES ('admin@example.com', '$2a$10$odVIfwNHCScMKP3Yq9vNmOC6z1jmZTpOWlgw6DBgvEWLOGwXW54qO', 'admin');  -- Зашифрованный пароль
     END IF;
 END $$;

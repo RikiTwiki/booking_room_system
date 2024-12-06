@@ -6,13 +6,19 @@ services:
       context: ./backend  # Путь к папке backend с Dockerfile
     container_name: backend
     ports:
-      - "3005:3000"
+      - "3000:3000"
     environment:
       - NODE_ENV=production
+      - DATABASE_HOST=db  # Указываем имя сервиса базы данных
+      - DATABASE_PORT=5432  # Стандартный порт внутри Docker сети
+      - DATABASE_USER=rikitwiki
+      - DATABASE_PASSWORD=rikitwiki
+      - DATABASE_NAME=booking
     networks:
       - app-network
     depends_on:
       - db  # Зависит от базы данных
+    command: ["./scripts/wait-for-postgres.sh", "db", "node", "server.js"]
 
   frontend:
     build:
