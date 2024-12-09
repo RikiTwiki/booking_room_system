@@ -4,6 +4,7 @@ services:
   backend:
     build:
       context: ./backend  # Путь к папке backend с Dockerfile
+      dockerfile: Dockerfile
     container_name: backend
     ports:
       - "3000:3000"
@@ -18,7 +19,7 @@ services:
       - app-network
     depends_on:
       - db  # Зависит от базы данных
-    command: ["./scripts/wait-for-postgres.sh", "db", "node", "server.js"]
+    command: ["/usr/src/app/scripts/wait-for-postgres.sh", "db", "node", "server.js"]
 
   frontend:
     build:
