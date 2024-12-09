@@ -1,6 +1,11 @@
-git clone https://github.com/RikiTwiki/booking.git
+git clone --recurse-submodules https://github.com/RikiTwiki/booking.git
 
 docker-compose up --build
 
 http://localhost:8081/login
-# booking_room_system
+
+login
+
+admin@exmaple.com
+
+admin
