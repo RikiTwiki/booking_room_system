@@ -6,8 +6,6 @@ docker-compose up --build
 
 http://localhost:8081/login
 
-login
-
 admin@exmaple.com
 
 admin
